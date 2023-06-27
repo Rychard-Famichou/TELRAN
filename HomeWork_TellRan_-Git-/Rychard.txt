@@ -1,0 +1,3 @@
+Hello.
+I am Rychard.
+I study Git.
