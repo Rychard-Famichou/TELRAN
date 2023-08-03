@@ -1,0 +1,177 @@
+{
+	"info": {
+		"_postman_id": "0c3630b9-94e6-4506-95ee-1ccc32523bac",
+		"name": "SwaggerCol01",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28440258"
+	},
+	"item": [
+		{
+			"name": "pet",
+			"item": [
+				{
+					"name": "Add a new pet to a store",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var pet_id = pm.variables.replaceIn('{{$randomInt}}')\r",
+									"\r",
+									"pm.environment.set(\"PET_ID\", pm.variables.replaceIn('{{$randomInt}}'));\r",
+									"pm.environment.set(\"CATEGORY_NAME\", pm.variables.replaceIn('{{$randomAbbreviation}}'));\r",
+									"pm.environment.set(\"PET_NAME\", pm.variables.replaceIn('{{$randomFirstName}}'));\r",
+									"\r",
+									"pm.sendRequest(\"https://petstore.swagger.io/v2/pet/\" + pet_id, function (err, response) {\r",
+									"    var getPetJson = response.json();\r",
+									"    while(getPetJson.message != \"Pet not found\")\r",
+									"        pet_id = pm.variables.replaceIn('{{$randomInt}}')\r",
+									"    pm.test(\"Check that random pet not in system\", function(){\r",
+									"        pm.expect(getPetJson.message).to.be.eql(\"Pet not found\")\r",
+									"    })\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"PET_ID\", pet_id);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"    var jsonData = pm.response.json();\r",
+									"pm.test(\"Pet status is correct\", function () {\r",
+									"    // console.log(jsonData)\r",
+									"    pm.expect(jsonData.status).to.eql(\"available\");\r",
+									"});\r",
+									"var schema = {\r",
+									"    'id' : Int16Array,\r",
+									"    'category':\r",
+									"        {\r",
+									"        'id': Int16Array,\r",
+									"        'name' : String\r",
+									"        },\r",
+									"    'name': String,\r",
+									"    'photoUrls':\r",
+									"        {\r",
+									"        0: String\r",
+									"        },\r",
+									"    'tags': \r",
+									"        {\r",
+									"        0: \r",
+									"            {\r",
+									"            id: Int16Array,\r",
+									"            name: String\r",
+									"            },\r",
+									"        },\r",
+									"    'status': String,\r",
+									"};\r",
+									"\r",
+									"var data1 = [true, false];\r",
+									"var data2 = [true, 123];\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    pm.expect(tv4.validate(data1, schema)).to.be.true;\r",
+									"    pm.expect(tv4.validate(data2, schema)).to.be.true;\r",
+									"});\r",
+									"    // console.log(jsonData)\r",
+									"pm.test(\"Pet's ID is correct\", function() {\r",
+									"    pm.expect(jsonData.id).to.eql(parseInt(pm.environment.get(\"PET_ID\")))\r",
+									"});\r",
+									"pm.test(\"PET's NAME is correct\", function() {\r",
+									"    pm.expect(jsonData.name).to.eql(pm.environment.get(\"PET_NAME\"))\r",
+									"});\r",
+									"// pm.test(\"Pet's CATEGORY's NAME is correct\", function() {\r",
+									"//     pm.expect(jsonData.name).to.be.a(\"CATEGORY_NAME\")\r",
+									"// });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": {{PET_ID}},\r\n    \"category\": {\r\n        \"id\": 0,\r\n        \"name\": \"{{CATEGORY_NAME}}\"\r\n    },\r\n    \"name\": \"{{PET_NAME}}\",\r\n    \"photoUrls\": [\r\n        \"string\"\r\n    ],\r\n    \"tags\": [\r\n        {\r\n            \"id\": 0,\r\n            \"name\": \"string\"\r\n        }\r\n    ],\r\n    \"status\": \"available\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/pet",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"pet"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "https://api.getpostman.com/collections/28440258-0c3630b9-94e6-4506-95ee-1ccc32523bac?apikey=PMAK-64cb9bc4328d8d003f0730d8-4fc0c930b6032af147374b24ea2ebfc38b",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.getpostman.com/collections/28440258-0c3630b9-94e6-4506-95ee-1ccc32523bac?apikey=PMAK-64cb9bc4328d8d003f0730d8-4fc0c930b6032af147374b24ea2ebfc38b",
+					"protocol": "https",
+					"host": [
+						"api",
+						"getpostman",
+						"com"
+					],
+					"path": [
+						"collections",
+						"28440258-0c3630b9-94e6-4506-95ee-1ccc32523bac"
+					],
+					"query": [
+						{
+							"key": "apikey",
+							"value": "PMAK-64cb9bc4328d8d003f0730d8-4fc0c930b6032af147374b24ea2ebfc38b"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.sendRequest(\"https://postman-echo.com/get\", function (err, response) {",
+					"    console.log(response.json());",
+					"});"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
